@@ -18,7 +18,9 @@ const FormLogin = () => {
     const validate = ({ email, password }) => {
         const err = {};
         const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (!regex.test(email)) {
+        if (!email) {
+            err.email = "Email is required";
+        } else if (!regex.test(email)) {
             err.email = "This is not a valid email";
         }
         if (!password) {
@@ -37,10 +39,15 @@ const FormLogin = () => {
         if (formValues.password) {
             setFormErrors({ ...formErrors, password: "" });
         }
-    }, [formValues]);
+    }, [formValues, isSubmit]);
 
     return (
-        <>
+        <div className="root">
+            <div className="form-notification">
+                {Object.keys(formErrors).length === 0 && isSubmit
+                    ? "Sign in successfully"
+                    : "Sign in unsuccessfully"}
+            </div>
             <div className="main">
                 <div className="container">
                     <div className="form-title-container">
@@ -88,7 +95,7 @@ const FormLogin = () => {
                                 <input
                                     type="checkbox"
                                     name="store-password"
-                                    class="store-password"
+                                    className="store-password"
                                 />
                             </div>
                             <div className="form-forget-password">
@@ -108,7 +115,7 @@ const FormLogin = () => {
                     </form>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
